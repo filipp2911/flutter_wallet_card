@@ -37,6 +37,8 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                     addPassesFlutterResult = result
                     initialPassCount = PKPassLibrary().passes().count
                     self.viewController.show(vc.unsafelyUnwrapped, sender: self)
+                    print("addPassesFlutterResult", result)
+                    result(true)
                     
                 }
                 catch {
@@ -71,9 +73,11 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
             /// get the serial number of the pass from the arguments and the 
             guard let arguments = call.arguments as? [String : Any] else {return}
             let serialNumber = arguments["serialNumber"] as! String;
+            print("serialNumber", serialNumber)
             /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
             let passSerialNumber = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })?.serialNumber
             /// check if the pass is added to the wallet
+             print("serialNumberSWallet", PKPassLibrary().passes())
             if passSerialNumber == serialNumber {
                 result(true)
             } else {
