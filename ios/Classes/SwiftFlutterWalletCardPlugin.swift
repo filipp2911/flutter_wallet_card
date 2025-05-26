@@ -45,7 +45,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                     result(false)
                 }
         break;
-        
+
         case "addMultipleWalletCards":
             guard let arguments = call.arguments as? [String : Any] else {return}
                 let filePaths = arguments["paths"] as! [String];
@@ -62,7 +62,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
                 }
                 let vc = PKAddPassesViewController(passes: passes)
                 self.viewController.show(vc.unsafelyUnwrapped, sender: self)
-                
+
                 result(true)
         break;
         case "isWalletAvailable":
@@ -70,14 +70,14 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
         break;
 
         case "isWalletCardAdded":
-            /// get the serial number of the pass from the arguments and the 
+            /// get the serial number of the pass from the arguments and the
             guard let arguments = call.arguments as? [String : Any] else {return}
-            let serialNumber = arguments["serialNumber"] as! String;
-            let passes = await PKPassLibrary().pass("pass.com.demirbank.kg", "RGVtaXJiYW5rIFFy")
+            let serialNumber = arguments["serialNumber"] as! String
             print("serialNumber", serialNumber)
-            print("passesDemir", passes)
             /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
             let passSerialNumber = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })?.serialNumber
+            let passes1 = PKPassLibrary().pass(withPassTypeIdentifier: "pass.com.demirbank.kg", serialNumber:"RGVtaXJiYW5rIFFy")
+            print("passesDemir", passes1)
             /// check if the pass is added to the wallet
              print("serialNumberSWallet", PKPassLibrary().passes())
             if passSerialNumber == serialNumber {
@@ -91,7 +91,7 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
             let serialNumber = arguments["serialNumber"] as! String;
             /// get the first index of the pass from the wallet by serialNumber, first where serialNumber == pass.serialNumber
             let pass = PKPassLibrary().passes().first(where: { $0.serialNumber == serialNumber })
-        
+
             /// check if the pass exists
             if let passURL = pass?.passURL {
                 UIApplication.shared.open(passURL) { success in
