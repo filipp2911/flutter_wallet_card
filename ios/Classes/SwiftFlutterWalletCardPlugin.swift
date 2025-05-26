@@ -6,11 +6,11 @@ public class SwiftFlutterWalletCardPlugin: NSObject, FlutterPlugin {
   let viewController: UIViewController
   var addPassesFlutterResult: FlutterResult?
   var initialPassCount: Int?
-    
+
   init(controller: UIViewController) {
     self.viewController = controller
   }
-    
+
   public static func register(with registrar: FlutterPluginRegistrar) {
     let controller : UIViewController = (UIApplication.shared.delegate?.window??.rootViewController)!
     let channel = FlutterMethodChannel(name: "flutter_wallet_card", binaryMessenger: registrar.messenger())
@@ -112,6 +112,8 @@ extension SwiftFlutterWalletCardPlugin: PKAddPassesViewControllerDelegate {
         if  let initialPassCount = initialPassCount, let addPassesFlutterResult = addPassesFlutterResult {
             let newPassCount = PKPassLibrary().passes().count
             controller.dismiss(animated: true, completion: nil)
+           print("resultPass1", newPassCount)
+           print("resultPass2", initialPassCount)
             addPassesFlutterResult(newPassCount > initialPassCount)
         }
     }
